@@ -19,12 +19,14 @@ class _NewExpenseState extends State<NewExpense> {
   Category selectedCategory = Category.food;
 
   void submitData() {
+    //Submitting New Expense With Submit Button
     final enteredAmount = double.tryParse(_amountController.text);
     final amountInvalid = (enteredAmount == null) || enteredAmount <= 0;
 
     if (_titleController.text.trim().isEmpty ||
         amountInvalid ||
-        selectedDate == null) {
+        selectedDate == null) //Checking Empty Fields
+    {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -51,6 +53,7 @@ class _NewExpenseState extends State<NewExpense> {
           date: selectedDate!,
           category: selectedCategory),
     );
+    Navigator.pop(context);
   }
 
   void openDatePicker() async {
