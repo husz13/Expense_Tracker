@@ -30,3 +30,16 @@ class ExpenseModel {
     return formatter.format(date);
   }
 }
+
+class ExpenseBucket {
+  ExpenseBucket({required this.category, required this.expenseList});
+  final List<ExpenseModel> expenseList;
+  final Category category;
+  get totalExpense {
+    // ignore: unused_local_variable
+    double sum = 0;
+    for (final expense in expenseList) {
+      sum += expense.amount;
+    }
+  }
+}

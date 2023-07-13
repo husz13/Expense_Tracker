@@ -1,4 +1,5 @@
 import 'package:expense_tracker/data/shown_list.dart';
+import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expense_model.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
@@ -31,6 +32,8 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      //isDismissible: true,
+      barrierColor: const Color.fromARGB(255, 78, 89, 96),
       isScrollControlled: true,
       context: context,
       builder: (ctx) {
@@ -81,8 +84,12 @@ class _ExpensesState extends State<Expenses> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Expenses Tracker App"),
-        backgroundColor: const Color.fromARGB(255, 222, 219, 219),
         actions: [
+          IconButton(
+              onPressed: () {
+                mainTheme = darkTheme;
+              },
+              icon: Icon(Icons.publish_outlined)),
           IconButton(
               onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
         ],

@@ -106,9 +106,13 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(selectedDate == null
-                        ? "No Date Selected"
-                        : formatter.format(selectedDate!)),
+                    Text(
+                      selectedDate == null
+                          ? "No Date Selected"
+                          : formatter.format(selectedDate!),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.titleSmall!.color),
+                    ),
                     IconButton(
                         onPressed: openDatePicker,
                         icon: const Icon(Icons.calendar_month_outlined))
@@ -120,19 +124,27 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               DropdownButton(
-                  value: selectedCategory,
-                  items: Category.values
-                      .map((item) => DropdownMenuItem(
-                          value: item, child: Text(item.name.toUpperCase())))
-                      .toList(),
-                  onChanged: (value) {
-                    if (value == null) {
-                      return;
-                    }
-                    setState(() {
-                      selectedCategory = value;
-                    });
-                  }),
+                value: selectedCategory,
+                items: Category.values
+                    .map((item) => DropdownMenuItem(
+                        value: item,
+                        child: Text(
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer),
+                            item.name.toUpperCase())))
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  setState(() {
+                    selectedCategory = value;
+                  });
+                },
+              ),
+              const Spacer(),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
