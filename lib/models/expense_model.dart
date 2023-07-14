@@ -35,11 +35,18 @@ class ExpenseBucket {
   ExpenseBucket({required this.category, required this.expenseList});
   final List<ExpenseModel> expenseList;
   final Category category;
-  get totalExpense {
+  double get totalExpense {
     // ignore: unused_local_variable
     double sum = 0;
     for (final expense in expenseList) {
       sum += expense.amount;
     }
+    return sum;
   }
+
+  ExpenseBucket.ofCategory(
+      {required List<ExpenseModel> totalExpenseList, required this.category})
+      : expenseList = (totalExpenseList
+            .where((expense) => expense.category == category)
+            .toList());
 }

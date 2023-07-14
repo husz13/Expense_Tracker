@@ -1,5 +1,6 @@
 import 'package:expense_tracker/data/shown_list.dart';
 import 'package:expense_tracker/main.dart';
+import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expense_model.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
@@ -86,18 +87,13 @@ class _ExpensesState extends State<Expenses> {
         title: const Text("Expenses Tracker App"),
         actions: [
           IconButton(
-              onPressed: () {
-                mainTheme = darkTheme;
-              },
-              icon: Icon(Icons.publish_outlined)),
-          IconButton(
               onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
         ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("Chart"),
+          Chart(expensesList: listOfExpenses),
           Expanded(child: mainContent),
         ],
       ),
