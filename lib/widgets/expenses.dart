@@ -1,10 +1,9 @@
 import 'package:expense_tracker/data/shown_list.dart';
-import 'package:expense_tracker/main.dart';
+import 'package:expense_tracker/models/expense_model.dart';
+import 'package:flutter/material.dart';
 import 'package:expense_tracker/widgets/chart/chart.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
-import 'package:expense_tracker/models/expense_model.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
-import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -15,26 +14,11 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  /*final List<ExpenseModel> expList = [
-    ExpenseModel(
-      title: "Food Of The Month",
-      amount: 300.75,
-      date: DateTime.now(),
-      category: Category.food,
-    ),
-    ExpenseModel(
-      title: "Courses",
-      amount: 150.99,
-      date: DateTime.now(),
-      category: Category.work,
-    )
-  ];*/
-  //List<ExpenseModel> listOfExpenses = [];
-
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      useSafeArea: true,
       //isDismissible: true,
-      barrierColor: const Color.fromARGB(255, 78, 89, 96),
+      //barrierColor: const Color.fromARGB(255, 78, 89, 96),
       isScrollControlled: true,
       context: context,
       builder: (ctx) {
@@ -72,6 +56,9 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    var maxWidth = MediaQuery.of(context).size.width;
+    //print("width is " + maxWidth.toString()); if maxWidth >>600;
+
     Widget mainContent = const Center(
       child: Text("Empty Content "),
     );
@@ -90,13 +77,21 @@ class _ExpensesState extends State<Expenses> {
               onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Chart(expensesList: listOfExpenses),
-          Expanded(child: mainContent),
-        ],
-      ),
+      body: maxWidth < 600
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Chart(expensesList: listOfExpenses),
+                Expanded(child: mainContent),
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                  Chart(expensesList: listOfExpenses),
+                  Expanded(child: mainContent),
+                ]),
     );
   }
 }

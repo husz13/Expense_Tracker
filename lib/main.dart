@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final kColorScheme = ColorScheme.fromSeed(
-    seedColor: const Color.fromARGB(255, 1, 69, 83)); //rgb(17, 106, 123)
+    seedColor: Color.fromARGB(255, 14, 83, 186)); //rgb(17, 106, 123)
 final darkKColorScheme = ColorScheme.fromSeed(
     brightness: Brightness.dark,
 
     ///primary: const Color.fromARGB(255, 51, 29, 44), //rgb(51, 29, 44)
-    seedColor: const Color.fromARGB(255, 51, 29, 44)); //rgb(63, 46, 62)
+    seedColor: Color.fromARGB(255, 5, 7, 109)); //rgb(63, 46, 62)
 
 void main() {
   runApp(

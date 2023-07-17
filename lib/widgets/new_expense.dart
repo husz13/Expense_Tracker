@@ -1,7 +1,5 @@
-//import 'package:expense_tracker/data/shown_list.dart';
 import 'package:expense_tracker/models/expense_model.dart';
 import 'package:flutter/material.dart';
-//import 'package:expense_tracker/widgets/expenses.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense(this.onAddExpense, {super.key});
@@ -81,80 +79,104 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            decoration: const InputDecoration(label: Text("Input Title")),
-            maxLength: 50,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: const InputDecoration(
-                      label: Text("Expense Amount"), prefixText: "\$ "),
-                  keyboardType: TextInputType.number,
-                  controller: _amountController,
-                ),
+    return LayoutBuilder(builder: (ctx, constrains) {
+      final keyboardBottom = MediaQuery.of(context).viewInsets.bottom;
+      return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + keyboardBottom),
+            child: Expanded(
+              child: Column(
+                children: [
+                  TextField(
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onBackground),
+                    controller: _titleController,
+                    decoration:
+                        const InputDecoration(label: Text("Input Title")),
+                    maxLength: 50,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                          decoration: const InputDecoration(
+                            label: Text("Expense Amount"),
+                            prefixText: "\$ ",
+                          ),
+                          keyboardType: TextInputType.number,
+                          controller: _amountController,
+                        ),
+                      ),
+                      // const SizedBox(width: 60),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              selectedDate == null
+                                  ? "No Date Selected"
+                                  : formatter.format(selectedDate!),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .color),
+                            ),
+                            IconButton(
+                                onPressed: openDatePicker,
+                                icon: const Icon(Icons.calendar_month_outlined))
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      DropdownButton(
+                        value: selectedCategory,
+                        items: Category.values
+                            .map((item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondaryContainer),
+                                    item.name.toUpperCase())))
+                            .toList(),
+                        onChanged: (value) {
+                          if (value == null) {
+                            return;
+                          }
+                          setState(() {
+                            selectedCategory = value;
+                          });
+                        },
+                      ),
+                      const Spacer(),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Cancel")),
+                      ElevatedButton(
+                        onPressed: submitData,
+                        child: const Text("Submit"),
+                      )
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(width: 60),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      selectedDate == null
-                          ? "No Date Selected"
-                          : formatter.format(selectedDate!),
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.titleSmall!.color),
-                    ),
-                    IconButton(
-                        onPressed: openDatePicker,
-                        icon: const Icon(Icons.calendar_month_outlined))
-                  ],
-                ),
-              )
-            ],
+            ),
           ),
-          Row(
-            children: [
-              DropdownButton(
-                value: selectedCategory,
-                items: Category.values
-                    .map((item) => DropdownMenuItem(
-                        value: item,
-                        child: Text(
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondaryContainer),
-                            item.name.toUpperCase())))
-                    .toList(),
-                onChanged: (value) {
-                  if (value == null) {
-                    return;
-                  }
-                  setState(() {
-                    selectedCategory = value;
-                  });
-                },
-              ),
-              const Spacer(),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Cancel")),
-              ElevatedButton(onPressed: submitData, child: const Text("Submit"))
-            ],
-          ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }
